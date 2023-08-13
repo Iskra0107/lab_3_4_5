@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
+import 'package:lab_3_4_5/home_page.dart';
 import 'package:lab_3_4_5/login_screen.dart';
+import 'package:lab_3_4_5/map_screen.dart';
 import 'package:lab_3_4_5/register_screen.dart';
 import 'package:lab_3_4_5/slot_view.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
-import 'dart:async';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/foundation.dart';
 import 'package:timezone/timezone.dart' as timeZone;
 
 late User loggedInUser;
@@ -55,11 +57,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      initialRoute: '$LoginScreen.id',
+      initialRoute: LoginScreen.id,
       routes: {
         '/': (context) => const MyAppClass(),
-        '$LoginScreen.id': (context) => const LoginScreen(),
-        '$RegistrationScreen.id': (context) => const RegistrationScreen(),
+        LoginScreen.id: (context) => const LoginScreen(),
+        RegistrationScreen.id: (context) => const RegistrationScreen(),
+        HomeScreen.id: (context) => const HomeScreen(),
+        '/map': (context) => const MapScreen(channel: channel),
       },
     );
   }
@@ -144,8 +148,6 @@ class _MyAppState extends State<MyAppClass> {
           icon: '@mipmap/ic_launcher',
         ),
       ),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
       // ignore: deprecated_member_use
       androidAllowWhileIdle: true,
     );
@@ -298,7 +300,7 @@ class _MyAppState extends State<MyAppClass> {
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Датум полагање',
-                            hintText: 'Пр: 25.02.2022'),
+                            hintText: 'Пр: 25.02.2023'),
                         controller: dateController,
                       ),
                     ),
