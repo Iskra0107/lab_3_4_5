@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.15'
     }
 }
 
@@ -26,6 +27,11 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}
+
+plugins {
+    // Add the dependency for the Google services Gradle plugin
+    id 'com.google.gms.google-services' version '4.3.15' apply false
 }
